@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>이종현 · 백엔드 개발 포트폴리오</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+  --bg:#fbfbfd; --bg-soft:#f4f5fa; --surface:#ffffff;
+  --ink:#171b26; --ink-soft:#39414f; --muted:#6b7382; --line:#e9ebf1; --line-2:#f1f2f7;
+  --primary:#5a5bd8; --primary-2:#8b6cf0; --primary-weak:#eef0fe; --accent:#0ea5a3;
+  --code-bg:#181d29; --code-ink:#e8ebf3; --code-line:#262d3d;
+  --chip-bg:#eef0f6; --chip-ink:#4b5566;
+  --amber:#e0a92e; --amber-bg:#fff9ec; --amber-line:#f2e2b4; --amber-ink:#6b5417;
+  --shadow-s:0 1px 2px rgba(20,24,40,.05);
+  --shadow-m:0 2px 6px rgba(20,24,40,.05),0 12px 32px rgba(20,24,40,.06);
+  --wrap:1460px; --side:236px;
+}
+html[data-theme="dark"]{
+  --bg:#0b0d13; --bg-soft:#12141d; --surface:#151824;
+  --ink:#eef0f6; --ink-soft:#c7ccd8; --muted:#98a0b0; --line:#232838; --line-2:#1b1f2b;
+  --primary:#9092f7; --primary-2:#b295f6; --primary-weak:#191d2c; --accent:#2dd4bf;
+  --code-bg:#0a0d15; --code-ink:#e8ebf3; --code-line:#1b2130;
+  --chip-bg:#1a1e2b; --chip-ink:#aab2c3;
+  --amber:#d9a533; --amber-bg:#221e11; --amber-line:#463c1d; --amber-ink:#e6cf8f;
+  --shadow-s:0 1px 2px rgba(0,0,0,.35);
+  --shadow-m:0 2px 8px rgba(0,0,0,.4),0 14px 36px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink-soft);
+  font-family:"Pretendard","Pretendard Variable",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
+  font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
+a{color:var(--primary);text-decoration:none}
+::selection{background:var(--primary);color:#fff}
+
+.progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+  background:linear-gradient(90deg,var(--primary),var(--primary-2));transition:width .1s linear}
+
+/* ---------- HERO (left-aligned, two-column) ---------- */
+.hero{position:relative;overflow:hidden;
+  background:
+    radial-gradient(46% 60% at 10% -8%, color-mix(in srgb,var(--primary) 13%, transparent), transparent 66%),
+    radial-gradient(40% 52% at 94% 0%, color-mix(in srgb,var(--accent) 10%, transparent), transparent 72%),
+    linear-gradient(180deg,var(--surface),var(--bg));
+  border-bottom:1px solid var(--line)}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(var(--line) 1px, transparent 1.4px);background-size:24px 24px;
+  -webkit-mask:linear-gradient(180deg,#000,transparent 90%);mask:linear-gradient(180deg,#000,transparent 90%);opacity:.5}
+.hero-in{position:relative;max-width:var(--wrap);margin:0 auto;padding:74px 28px 52px}
+.eyebrow{font-size:12px;letter-spacing:3.5px;font-weight:700;color:var(--primary);text-transform:uppercase;margin-bottom:16px}
+.hero h1{font-size:58px;line-height:1.05;margin:0;color:var(--ink);font-weight:800;letter-spacing:-1.8px}
+.hero .role{font-size:18px;color:var(--muted);margin-top:14px;font-weight:500}
+.hero .bar{height:5px;width:58px;border-radius:4px;margin:22px 0 24px;background:linear-gradient(90deg,var(--primary),var(--primary-2))}
+.stack{display:flex;flex-wrap:wrap;gap:8px}
+.stack .chip{font-size:13px;font-weight:600;color:var(--primary);background:var(--surface);
+  border:1px solid color-mix(in srgb,var(--primary) 24%, transparent);border-radius:20px;padding:6px 14px;box-shadow:var(--shadow-s)}
+.hero .lead{font-size:15.5px;color:var(--ink-soft);line-height:1.82;margin:0;max-width:620px}
+.disclaimer{margin-top:22px;max-width:620px;font-size:12.5px;color:var(--muted);line-height:1.6;
+  background:var(--bg-soft);border:1px solid var(--line);border-radius:10px;padding:11px 15px}
+/* hero expertise card */
+.hero-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px 26px;box-shadow:var(--shadow-m)}
+.hero-card .h{display:flex;align-items:center;gap:8px;font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);font-weight:700;margin-bottom:6px}
+.hero-card .h::after{content:"";flex:1;height:1px;background:var(--line)}
+.hero-card .row{display:flex;gap:15px;padding:16px 0;border-bottom:1px solid var(--line-2)}
+.hero-card .row:last-child{border-bottom:none;padding-bottom:2px}
+.hero-card .ic{width:38px;height:38px;flex:none;border-radius:11px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,color-mix(in srgb,var(--primary) 16%,transparent),color-mix(in srgb,var(--primary-2) 16%,transparent));
+  color:var(--primary)}
+.hero-card .ic svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.7}
+.hero-card .t{font-size:15px;font-weight:700;color:var(--ink);letter-spacing:-.2px}
+.hero-card .d{font-size:13px;color:var(--muted);margin-top:3px;line-height:1.55}
+
+/* ---------- LAYOUT ---------- */
+.layout{max-width:var(--wrap);margin:0 auto;display:grid;grid-template-columns:var(--side) minmax(0,1fr);gap:52px;padding:0 28px}
+nav.toc{position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;padding:46px 0;scrollbar-width:thin}
+nav.toc .tlabel{font-size:11px;letter-spacing:2px;font-weight:700;color:var(--muted);text-transform:uppercase;padding:0 14px 14px}
+nav.toc a{display:flex;gap:11px;align-items:flex-start;padding:8px 14px;margin:1px 0;border-radius:9px;color:var(--muted);
+  font-size:13px;line-height:1.42;font-weight:500;transition:.16s;position:relative}
+nav.toc a .n{font-size:11px;font-weight:800;color:var(--line);padding-top:1px;min-width:15px;transition:.16s}
+nav.toc a:hover{background:var(--bg-soft);color:var(--ink)}
+nav.toc a.active{color:var(--primary);background:var(--primary-weak);font-weight:600}
+nav.toc a.active .n{color:var(--primary)}
+nav.toc a.active::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;border-radius:3px;background:var(--primary)}
+
+main{min-width:0;max-width:1020px;margin:0 auto;padding:48px 0 90px}
+
+/* ---------- PROJECT ---------- */
+section.proj{padding:42px 0;border-top:1px solid var(--line);scroll-margin-top:20px}
+section.proj:first-child{border-top:none;padding-top:12px}
+.ptitle{position:relative;padding-left:56px;margin:0 0 6px;font-size:26px;font-weight:800;color:var(--ink);line-height:1.32;letter-spacing:-.5px}
+.ptitle::before{content:attr(data-num);position:absolute;left:0;top:0;width:40px;height:40px;
+  display:flex;align-items:center;justify-content:center;border-radius:12px;
+  background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;font-size:15px;font-weight:800;
+  box-shadow:0 6px 16px color-mix(in srgb,var(--primary) 34%, transparent)}
+.ptitle::after{content:"";position:absolute;left:4px;top:4px;width:40px;height:40px;border-radius:12px;
+  border:1.5px solid color-mix(in srgb,var(--primary) 30%, transparent);z-index:-1}
+p.tech{margin:16px 0 4px;font-size:13px;color:var(--muted);background:var(--bg-soft);
+  border:1px solid var(--line);border-radius:9px;padding:9px 14px}
+p.tech strong{color:var(--primary);font-weight:700}
+p.tech em{font-style:italic;color:var(--muted)}
+
+h2{font-size:17px;font-weight:700;color:var(--ink);margin:28px 0 9px;padding-left:15px;position:relative;line-height:1.4}
+h2::before{content:"";position:absolute;left:0;top:5px;width:5px;height:16px;border-radius:3px;background:linear-gradient(180deg,var(--primary),var(--primary-2))}
+h2.appendix{padding:0;font-size:20px;margin-top:10px}
+h2.appendix::before{display:none}
+h3{font-size:15px;font-weight:700;color:var(--ink);margin:18px 0 4px}
+p{margin:10px 0}
+strong{color:var(--ink);font-weight:700}
+
+p.summary{background:linear-gradient(100deg,var(--primary-weak),transparent 90%);
+  border:1px solid color-mix(in srgb,var(--primary) 16%, transparent);border-left:3px solid var(--primary);
+  border-radius:12px;padding:15px 18px;margin:10px 0;font-size:15.5px;color:var(--ink-soft);box-shadow:var(--shadow-s)}
+p.summary strong{color:var(--primary)}
+
+ul,ol{margin:9px 0;padding-left:22px}
+li{margin:6px 0}
+li::marker{color:var(--primary)}
+
+.tblwrap{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow-s)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:440px}
+thead th{background:var(--bg-soft);color:var(--ink);font-weight:700;text-align:left;padding:11px 14px;border-bottom:2px solid var(--line);white-space:nowrap}
+td{padding:10px 14px;border-bottom:1px solid var(--line-2);vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:nth-child(even) td{background:color-mix(in srgb,var(--bg-soft) 55%, transparent)}
+
+code{font-family:"JetBrains Mono","SF Mono",ui-monospace,Menlo,Consolas,monospace;font-size:12.8px;
+  background:var(--chip-bg);color:var(--primary);padding:2px 6px;border-radius:5px}
+html[data-theme="dark"] code{color:var(--primary-2)}
+.codeblock{position:relative;margin:16px 0}
+pre{background:var(--code-bg);color:var(--code-ink);border:1px solid var(--code-line);border-radius:12px;
+  padding:34px 18px 16px;overflow-x:auto;font-size:12.9px;line-height:1.65;margin:0;box-shadow:var(--shadow-s)}
+pre code{background:none;color:var(--code-ink);padding:0;font-size:12.9px}
+.codeblock::before{content:"";position:absolute;top:13px;left:16px;width:10px;height:10px;border-radius:50%;
+  background:#ff5f57;box-shadow:18px 0 0 #febc2e,36px 0 0 #28c840;opacity:.9}
+.copybtn{position:absolute;top:8px;right:9px;font-size:11px;font-weight:600;color:#aab2c3;background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.13);border-radius:6px;padding:3px 10px;cursor:pointer;transition:.15s}
+.copybtn:hover{color:#fff;background:rgba(255,255,255,.15)}
+
+blockquote{margin:16px 0;border-radius:0 12px 12px 0}
+blockquote.note{padding:12px 16px;background:var(--bg-soft);border-left:3px solid var(--line);color:var(--muted);font-size:14px}
+blockquote.accuracy{padding:14px 17px 14px 44px;background:var(--amber-bg);border:1px solid var(--amber-line);
+  border-left:3px solid var(--amber);color:var(--amber-ink);font-size:14px;position:relative}
+blockquote.accuracy::before{content:"!";position:absolute;left:16px;top:14px;width:18px;height:18px;line-height:18px;
+  text-align:center;background:var(--amber);color:#fff;font-weight:800;font-size:12px;border-radius:50%}
+blockquote.accuracy strong{color:var(--amber-ink)}
+blockquote p{margin:5px 0}
+
+p.keywords{margin:20px 0 0;padding-top:16px;border-top:1px solid var(--line)}
+.kw-label{font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-right:9px}
+.kw{display:inline-block;font-size:12.5px;color:var(--chip-ink);background:var(--chip-bg);border-radius:14px;padding:4px 12px;margin:0 6px 7px 0;transition:.15s}
+.kw:hover{color:var(--primary);background:var(--primary-weak)}
+
+hr{border:none;border-top:1px solid var(--line);margin:0}
+
+footer{border-top:1px solid var(--line);background:var(--bg-soft)}
+.foot-wrap{max-width:var(--wrap);margin:0 auto;padding:30px 28px}
+.foot-note{font-size:12.5px;color:var(--muted);line-height:1.65;margin:0 0 16px;padding-bottom:16px;border-bottom:1px solid var(--line);max-width:860px}
+.foot-row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;color:var(--muted);font-size:13px}
+
+.tt{position:fixed;top:18px;right:18px;z-index:40;width:40px;height:40px;border-radius:11px;border:1px solid var(--line);
+  background:var(--surface);color:var(--ink);cursor:pointer;font-size:17px;box-shadow:var(--shadow-m);transition:.15s}
+.tt:hover{border-color:var(--primary);color:var(--primary);transform:translateY(-1px)}
+.top{position:fixed;bottom:24px;right:18px;z-index:40;width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;
+  background:var(--primary);color:#fff;font-size:18px;box-shadow:0 8px 22px color-mix(in srgb,var(--primary) 45%, transparent);
+  opacity:0;pointer-events:none;transition:.25s;transform:translateY(8px)}
+.top.show{opacity:1;pointer-events:auto;transform:none}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:1180px){
+  :root{--side:210px}
+  .layout{gap:40px;padding:0 24px}
+  .hero-in{padding:76px 24px 56px}
+}
+@media (max-width:980px){
+  .hero-grid{grid-template-columns:1fr;gap:34px}
+  .hero .lead,.disclaimer{max-width:none}
+  .hero-right{max-width:560px}
+  .hero h1{font-size:50px}
+}
+@media (max-width:860px){
+  .hero h1{font-size:42px}
+  .hero-in{padding:60px 22px 44px}
+  .layout{grid-template-columns:1fr;gap:0;padding:0 22px}
+  nav.toc{position:sticky;top:0;z-index:30;height:auto;overflow-x:auto;overflow-y:hidden;padding:12px 0;
+    display:flex;gap:6px;background:color-mix(in srgb,var(--bg) 86%, transparent);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);scrollbar-width:none;margin:0 -22px;padding-left:22px;padding-right:22px}
+  nav.toc::-webkit-scrollbar{display:none}
+  nav.toc .tlabel{display:none}
+  nav.toc a{white-space:nowrap;border-radius:8px;font-size:12.5px;padding:7px 12px}
+  nav.toc a.active::before{display:none}
+  nav.toc a .n{display:none}
+  main{padding:28px 0 60px}
+  .ptitle{font-size:22px;padding-left:46px}
+  .ptitle::before{width:34px;height:34px;font-size:13px}
+  .ptitle::after{width:34px;height:34px}
+}
+@media (max-width:520px){
+  .hero h1{font-size:36px}
+  .hero-in{padding:48px 18px 38px}
+  .layout{padding:0 18px}
+  nav.toc{margin:0 -18px;padding-left:18px;padding-right:18px}
+  .hero-code pre{font-size:12px;padding:16px 16px}
+  .tt{top:12px;right:12px}
+}
+</style>
+</head>
+<body>
+<div class="progress" id="prog"></div>
+<button class="tt" id="themeToggle" aria-label="테마 전환">◐</button>
+
+<header class="hero">
+  <div class="hero-in">
+    <div class="eyebrow">Backend Engineer · Portfolio</div>
+    <h1>이종현</h1>
+    <div class="role">4년차 서버 개발자 — 성능 · 안정성 · 데이터 정합성</div>
+    <div class="bar"></div>
+    <div class="stack">
+      <span class="chip">Java</span><span class="chip">Spring Boot</span><span class="chip">JPA</span>
+      <span class="chip">MyBatis</span><span class="chip">MySQL · InnoDB</span><span class="chip">AWS</span><span class="chip">Redis</span>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="toc" id="toc">
+    <div class="tlabel">Selected Projects</div>
+    <a href="#p01" data-target="p01"><span class="n">01</span>파티 목록 조회 API
+슬로우쿼리 개선</a>
+<a href="#p02" data-target="p02"><span class="n">02</span>운영 배치 서버 OS
+메모리 상승 진단</a>
+<a href="#p03" data-target="p03"><span class="n">03</span>분산 환경 댓글
+닉네임 동시성 결함 개선</a>
+<a href="#p04" data-target="p04"><span class="n">04</span>같은 글
+안에서 랜덤 닉네임이 겹치는 문제 개선</a>
+<a href="#p05" data-target="p05"><span class="n">05</span>그룹웨어 게시판
+통합 조회 슬로우쿼리 튜닝</a>
+<a href="#p06" data-target="p06"><span class="n">06</span>대용량 엑셀 마이그레이션 (POI 전체 로딩 → SAX 스트리밍)</a>
+<a href="#appendix" data-target="appendix"><span class="n">+</span>부록 — 추가 예정</a>
+  </nav>
+  <main id="main">
+    <section id="p01" class="proj"><h1 class="ptitle" data-num="01" id="1-파티-목록-조회-api-슬로우쿼리-개선">파티 목록 조회 API
+슬로우쿼리 개선</h1>
+<p class="tech"><strong>소셜 매칭 플랫폼 · MySQL 8.0(InnoDB) · Spring Boot ·
+MyBatis</strong></p>
+<h2 id="요약">요약</h2>
+<p class="summary">앱 메인에서 매번 호출되는 파티 목록 조회가 1초 넘게 걸렸습니다.
+인덱스는 있는데도 풀스캔이 돌던 쿼리였고, 결과를 그대로 유지하면서 DB
+순수 쿼리 기준 1,194ms에서 74ms로 줄였습니다. 운영에서 재보면 대략
+1,160ms에서 92ms 수준입니다. DDL이나 인덱스 추가, 자바 코드 변경 없이
+MyBatis 매퍼만 고쳤습니다.</p>
+<h2 id="상황">상황</h2>
+<p><code>POST /party/partyList</code>는 앱 '모든 파티' 탭을 열 때마다
+실행되는 쿼리라 체감이 큰 경로였습니다. 슬로우 쿼리 알림이 떠서 확인해
+보니, 정작 필터 조건에 쓰는 <code>REG_DATE</code> 컬럼에는
+인덱스(<code>PARTY_REG_DATE_IDX</code>)가 걸려 있었습니다. 인덱스가
+있는데 왜 안 타는지가 출발점이었습니다.</p>
+<h2 id="원인">원인</h2>
+<p><code>EXPLAIN ANALYZE</code>를 떠 보니 PARTY 테이블 약 142만 행을
+통째로 읽고 있었고(<code>type=ALL</code>, <code>key=null</code>), 전체
+1,194ms 중 1,036ms가 이 스캔에서 나왔습니다.</p>
+<pre class="sql"><code>AND A.REG_DATE BETWEEN DATE_ADD(NOW(), INTERVAL -(8 + EXTENSION_DAYS) DAY) AND NOW()</code></pre>
+<p>문제는 BETWEEN의 하한이 상수가 아니라 같은 행의
+<code>EXTENSION_DAYS</code> 값에 걸려 있다는 점이었습니다. 경계값이
+행마다 달라지니 B-Tree로 구간을 좁힐 수가 없고, 옵티마이저는 모든 행을
+읽어 하나씩 경계를 계산할 수밖에 없습니다. 흔히 말하는 non-sargable
+조건입니다. 이 조건 자체는 예전부터 있었는데, 테이블이 142만 행까지
+커지면서 비로소 문제로 드러난 경우였습니다.</p>
+<h2 id="해결">해결</h2>
+<p>기존 조건은 비즈니스 규칙(노출 기간이 파티마다 다름)이라 손대기
+어려웠습니다. 그래서 조건은 그대로 두고, 인덱스를 태울 수 있는 더 느슨한
+하한을 한 줄 덧붙였습니다.</p>
+<pre class="sql"><code>-- 인덱스 탐색용 하한 (기존 조건은 그대로 유지)
+AND A.REG_DATE &gt;= DATE_ADD(NOW(), INTERVAL -(8 + (SELECT MAX(EXTENSION_DAYS) FROM PARTY)) DAY)</code></pre>
+<p>전체 <code>EXTENSION_DAYS</code>의 최댓값은 어떤 행의 값보다도 크거나
+같으니, 이 하한은 실제 하한보다 항상 느슨합니다. 그래서 새로 걸러지는
+행이 없어 결과가 바뀌지 않습니다. 정확한 노출 판정은 기존 BETWEEN이
+그대로 하고, 추가한 줄은 옵티마이저에게 "이 날짜 이후만 인덱스로
+읽어라"는 힌트 역할만 합니다. <code>MAX(EXTENSION_DAYS)</code>
+서브쿼리는 바깥 행과 무관해서 인덱스 MIN/MAX 최적화로 쿼리당 한 번만
+계산되고(EXPLAIN에서 <code>Select tables optimized away</code>,
+<code>&lt;cache&gt;</code>로 확인), 사실상 비용이 없습니다.</p>
+<p>경계값을 무엇으로 잡을지는 대안을 몇 개 놓고 비교했습니다.</p>
+<table>
+<thead>
+<tr class="header">
+<th>안</th>
+<th>방식</th>
+<th style="text-align: center;">DDL</th>
+<th>정책값 변경</th>
+<th>판단</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>하드코딩 상수 <code>-13일</code></td>
+<td>상수 프리필터</td>
+<td style="text-align: center;">✕</td>
+<td>설정 올리면 조용히 누락</td>
+<td>설정과 결합돼 위험</td>
+</tr>
+<tr class="even">
+<td>MAX 서브쿼리 (채택)</td>
+<td>sargable 하한 + <code>MAX()</code></td>
+<td style="text-align: center;">✕</td>
+<td>자동 반영</td>
+<td>국소적이고 되돌리기 쉬움, 성능도 동일</td>
+</tr>
+<tr class="odd">
+<td><code>LEAST(MAX, N)</code> 클램프</td>
+<td>상한 고정</td>
+<td style="text-align: center;">✕</td>
+<td>N 넘으면 누락</td>
+<td>하드코딩과 같은 문제</td>
+</tr>
+<tr class="even">
+<td>생성 컬럼 + 함수 인덱스</td>
+<td><code>END_DATE</code> 파생 후 인덱스</td>
+<td style="text-align: center;">○</td>
+<td>자동</td>
+<td>가장 튼튼하지만 리팩터링 규모가 큼(백로그로)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="짚고-넘어간-부분">짚고 넘어간 부분</h2>
+<p>"상위집합이라 결과가 안 바뀐다"는 논리를 다시 검토하다가 구멍을 하나
+찾았습니다. <code>DATE_ADD</code>는 DATETIME 범위를 벗어나면
+<code>NULL</code>을 반환하는데, 만약 설정에 비정상적으로 큰 값이
+들어오면 하한이 <code>NULL</code>이 되어 결과가 통째로 사라질 수
+있었습니다(dev에서 재현했습니다). 실무에서 <code>EXTENSION_DAYS</code>는
+0~7 사이로만 쓰이고 오버플로가 나려면 약 74만 일이 필요하니 현실적으로는
+일어나지 않지만, 값이 들어오는 쪽을 막는 게 낫다고 봤습니다. 그래서
+설정을 편집하는 어드민 입력 단계에 상한 30일 가드를 따로 넣어
+<code>MAX ≤ 30</code>을 보장했습니다. 읽기 쿼리는 정확성만 챙기고, 성능
+보호는 쓰기 쪽에서 하도록 역할을 나눈 셈입니다.</p>
+<h2 id="검증">검증</h2>
+<p>결과가 같은지와 빨라졌는지를 나눠서 봤습니다.</p>
+<p>결과 동일성은 수정 전 서버와 수정 후 서버에 같은 요청을 보내 응답을
+비교했습니다. 정렬·페이징·필터를 조합한 12개 시나리오를 전부 돌렸고,
+호출 시각(<code>currentTime</code>)만 빼면 <code>partySeq</code>, 정렬
+순서, <code>memberCount</code>, <code>title</code>까지 실제 값이 12개
+모두 일치했습니다. 필터로 실제로 걸러지는 케이스(키워드 15건, 타입 20건,
+전체 조합 1건)도 같아서 빈 응답끼리 우연히 맞은 게 아님을
+확인했습니다.</p>
+<p>속도는 DB <code>EXPLAIN ANALYZE</code>로 1,194ms → 74ms(약 16배),
+운영 배포 전후 같은 서버에서 재보면 대략 1,160ms → 92ms였습니다. 배포 후
+30일 동안 Prometheus로 실사용 트래픽까지 지켜봤는데, 배포일을 기점으로
+평균 응답이 약 1,120ms에서 64ms로 떨어진 뒤 다시 오르지 않았습니다.</p>
+<h2 id="돌아보며">돌아보며</h2>
+<p>인덱스가 걸려 있다고 다 타는 게 아니라는 걸 실제 사례로 확인했습니다.
+컬럼을 함수로 감싸거나 비교 경계에 다른 컬럼을 넣으면 인덱스가 죽습니다.
+그리고 못 바꾸는 조건이라도, 그걸 포함하는 더 느슨한 조건을 덧대면
+결과를 유지하면서 인덱스를 유도할 수 있다는 것도 남는 경험이었습니다. 한
+가지 더, 이 쿼리는 피크가 2.7 RPS로 트래픽 자체는 낮았는데도 문제가
+됐습니다. 1초짜리 쿼리가 핫패스에서 공용 HikariCP 커넥션을 오래 붙잡고
+있어서 다른 API 지연까지 끌고 갔기 때문입니다. 병목이 처리량이 아니라
+커넥션 점유 시간일 수 있다는 걸 이때 체감했습니다.</p>
+<p class="keywords"><span class="kw-label">STACK</span><span class="kw">MySQL 실행계획(EXPLAIN ANALYZE)</span><span class="kw">인덱스</span><span class="kw">sargable / non-sargable</span><span class="kw">상위집합 조건</span><span class="kw">비상관 서브쿼리</span><span class="kw">회귀 검증</span><span class="kw">HikariCP 커넥션 점유</span></p>
+<hr/>
+</section>
+<section id="p02" class="proj"><h1 class="ptitle" data-num="02" id="2-운영-배치-서버-os-메모리-상승-진단">운영 배치 서버 OS
+메모리 상승 진단</h1>
+<p class="tech"><strong>Java 21 · Spring Boot · ParallelGC / G1GC · Prometheus /
+Grafana / CloudWatch · pmap</strong></p>
+<h2 id="요약-1">요약</h2>
+<p class="summary">배치 서버의 OS 메모리가 몇 달에 걸쳐 80%까지 차오르면 수동으로
+재기동해서 넘기고 있었습니다. 원인이 불분명했는데, 계측을 이원화해서
+대조하고 pmap으로 실제 물리 메모리를 뜯어보고 GC 카운터를 직접
+쿼리하면서, 이게 메모리 누수가 아니라 과하게 잡은 heap과 ParallelGC의
+페이지 반환 특성이 겹친 결과라는 걸 확인했습니다. 재기동으로 버티던 걸
+설정으로 정리하는 방향을 잡았습니다.</p>
+<h2 id="상황-1">상황</h2>
+<p><code>sp-prod-batch</code> 서버(물리 7.6GiB, Swap 0)의 OS 메모리가 몇
+달 주기로 서서히 80%까지 올라, 그때마다 사람이 재기동해 왔습니다. 근본
+원인은 모르는 채였고, JVM 힙 모니터링만 보면 아무 이상이 없었습니다.
+옵션은 <code>-Xms6144M -Xmx6144M -XX:+UseParallelGC</code>였습니다.</p>
+<h2 id="진단-과정">진단 과정</h2>
+<p>한 번에 답을 맞힌 게 아니라, 가설을 세우고 데이터로 틀렸다는 걸
+확인하며 좁혀 갔습니다.</p>
+<p>먼저 CloudWatch 장기 그래프가 톱니 모양으로 시간에 비례해 우상향하는
+걸 보고 부하 스파이크가 아니라 누적성 문제로 봤습니다. 재기동하면
+리셋되니 주체는 이 배치 JVM 프로세스였습니다.</p>
+<p>다음으로 Prometheus(JVM 내부)와 CloudWatch(OS 물리)를 같은 시간대에
+겹쳐 봤습니다. JVM 지표는 평평한데 OS만 오르길래, 이 시점엔 heap 밖
+native 영역을 의심했습니다. 그러면서 <code>committed</code>(예약),
+<code>RSS</code>(실제 물리 점유), <code>used</code>(살아 있는 객체)를
+구분했는데, Prometheus의 <code>jvm_memory_used_bytes</code>는
+<code>used</code>만 보여주기 때문에 "used는 멀쩡한데 OS만 오른다"는
+착시가 생긴다는 걸 알았습니다.</p>
+<p>그래서 pmap으로 <code>VmRSS</code>를 heap RSS와 native RSS로
+쪼갰습니다. glibc arena 파편화 가설은 64MB 블록이 하나뿐이라 접었고,
+초반엔 heap RSS가 used peak와 거의 같아서 heap은 아닌 것처럼
+보였습니다.</p>
+<p>방향이 바뀐 건 주말 데이터였습니다. 운영자가 주말 푸시 시간대에
+메모리가 튄다고 해서 그 구간을 pmap으로 다시 재보니, 늘어난 게 native가
+아니라 heap RSS였습니다(+102MB, native는 그대로). 6일 추이로 봐도
+증가분의 85%가 heap이었습니다. native 방향은 여기서 접었습니다.</p>
+<p>마지막으로 "Full GC가 한 번도 안 돌았다"고 짐작했던 것도 틀렸습니다.
+Grafana에서
+<code>jvm_gc_pause_seconds_count{action="end of major GC"}</code>를 직접
+쿼리해 보니 실제로 4번 돌았고, 그 Full GC가 Old Gen을 바닥까지 비운 게
+오히려 "쌓인 건 누수가 아니라 회수 가능한 쓰레기"라는 근거였습니다.
+결정적인 건 Old Gen이 Full GC로 비워졌는데도 OS 메모리와 RSS는 안
+떨어졌다는 점이었습니다. ParallelGC가 한 번 건드린 물리 페이지를 OS에
+돌려주지 않기 때문에, 7.6GiB 박스에 6G로 잡은 heap 위에서 RSS가 6G 천장
+쪽으로 계속 밀려 올라가다 80%에 닿아 재기동으로 리셋되는 걸 반복하고
+있었습니다.</p>
+<h2 id="왜-그런가">왜 그런가</h2>
+<p>관계로 보면 <code>used ≤ RSS ≤ committed</code>입니다. heap
+<code>used</code> peak는 2.35G로 건강했지만, ParallelGC가 페이지를
+반환하지 않아 heap RSS가 그동안의 used 최고치를 따라 6G 천장까지 올라간
+게 실제 원인이었습니다. Prometheus는 <code>used</code>만 보여주니 이
+부분은 pmap으로 직접 떠야 보였습니다.</p>
+<h2 id="처방">처방</h2>
+<table>
+<thead>
+<tr class="header">
+<th>옵션</th>
+<th>방법</th>
+<th>효과</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td><code>-Xmx</code>(및 <code>-Xms</code>) 6G → 4G</td>
+<td>RSS 천장을 알람선 아래(~65%)로 낮춤. 처리량은 그대로, used peak가
+2.35G라 4G면 여유</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td>G1GC 전환</td>
+<td>안 쓰는 리전을 OS에 반환(uncommit)해서 6G여도 RSS가 계속 오르지
+않음</td>
+</tr>
+</tbody>
+</table>
+<p>heap을 줄이면 RSS가 물리적으로 그 위로 못 가고, heap이 작아 Full GC가
+더 자주 돌면서 쓰레기가 덜 쌓여 used 최고치도 낮게 유지됩니다. 누수를
+잡는 게 아니라 과하게 잡은 설정을 맞추는 쪽이라 임시방편이 아니라 실제
+해결이 됩니다.</p>
+<h2 id="돌아보며-1">돌아보며</h2>
+<p>메모리가 는다고 다 누수는 아니라는 걸 확인한 사례입니다. GC가
+정상이어도 RSS 최고치와 페이지 미반환 때문에 OS 메모리는 오를 수
+있습니다. <code>committed</code>·<code>RSS</code>·<code>used</code>를
+구분 못 하면 Prometheus만 보고 정상이라 판단하기 쉬운데, 실제 물리는
+pmap을 떠야 보입니다. ParallelGC도 나쁜 GC라기보다 처리량 대신 메모리를
+OS에 잘 안 돌려주는 성격이라, 박스 대비 heap을 크게 잡으면 이런 그림이
+나옵니다. 진행하면서 native, Netty, 주말 푸시 같은 그럴듯한 가설을 여러
+번 세웠는데 매번 pmap과 Grafana로 틀렸다는 걸 확인했고, 특히 GC 카운터를
+직접 쿼리해 잘못 짚은 걸 바로잡은 게 컸습니다.</p>
+<p class="keywords"><span class="kw-label">STACK</span><span class="kw">JVM 메모리(committed / RSS / used)</span><span class="kw">ParallelGC vs G1GC 페이지 반환</span><span class="kw">heap RSS 누적</span><span class="kw">pmap</span><span class="kw">Prometheus /
+Grafana(PromQL)</span><span class="kw">CloudWatch</span></p>
+<hr/>
+</section>
+<section id="p03" class="proj"><h1 class="ptitle" data-num="03" id="3-분산-환경-댓글-닉네임-동시성-결함-개선">분산 환경 댓글
+닉네임 동시성 결함 개선</h1>
+<p class="tech"><strong>Java 21 · Spring Boot · MyBatis · 다중 EC2 ·
+JUnit5</strong></p>
+<h2 id="요약-2">요약</h2>
+<p class="summary">여러 EC2에 요청이 분산되는 환경에서, 같은 회원이 같은 글에 거의
+동시에 댓글을 달면 서로 다른 익명 닉네임이 두 개 생기는 문제가
+있었습니다. 분산락이나 새 테이블, Redis 없이 닉네임 생성을
+결정론적(멱등) 방식으로 바꿔서 해결했고, 렌즈와 커뮤니티 두 도메인에
+같은 방식을 적용했습니다.</p>
+<h2 id="상황-2">상황</h2>
+<p>익명 닉네임을 쓰는 댓글/답글에서, 같은 회원이 같은 원글에 첫 댓글을
+거의 동시에 두 번 달면 닉네임이 두 개 만들어졌습니다. 요청이 서로 다른
+인스턴스로 갈 때 특히 잘 재현됐고, 렌즈 댓글과 커뮤니티 익명 라운지 댓글
+양쪽에 똑같이 있었습니다.</p>
+<h2 id="원인-1">원인</h2>
+<p>닉네임 생성이 "조회해서 없으면 만든다"는 비원자 패턴이었습니다. 두
+요청이 조회에서 모두 <code>null</code>을 읽고 각자
+<code>new Random()</code>으로 만들면, 같은 원글·같은 작성자인데 닉네임이
+갈립니다(작성자당 하나여야 한다는 규칙이 깨집니다). 두 도메인 모두
+<code>(원글, 작성자)</code>로 조회하는 구조가 같아서 결함도
+같았습니다.</p>
+<h2 id="대안-비교">대안 비교</h2>
+<table>
+<thead>
+<tr class="header">
+<th>방안</th>
+<th>원자성</th>
+<th>추가 비용</th>
+<th style="text-align: center;">채택</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Redis 분산락(Redisson)</td>
+<td>락으로 직렬화</td>
+<td>Redis 인프라 신규 도입</td>
+<td style="text-align: center;">✕ (과함)</td>
+</tr>
+<tr class="even">
+<td>DB UNIQUE 매핑 테이블</td>
+<td>DB가 보장</td>
+<td>신규 테이블 DDL</td>
+<td style="text-align: center;">✕ (DDL 회피)</td>
+</tr>
+<tr class="odd">
+<td>MySQL Named Lock(<code>GET_LOCK</code>)</td>
+<td>분산락</td>
+<td>커넥션·트랜잭션 결합 관리</td>
+<td style="text-align: center;">✕ (복잡)</td>
+</tr>
+<tr class="even">
+<td>결정론적 생성(시드 고정)</td>
+<td>race를 무의미화</td>
+<td>없음</td>
+<td style="text-align: center;">✓</td>
+</tr>
+</tbody>
+</table>
+<p>닉네임은 익명 표시용이라 서로 다른 유저끼리 우연히 겹치는 건 원래
+허용되는 성격입니다. 그래서 "절대 안 겹치게"가 아니라 "동시에 만들어도
+같은 값이 나오게"만 하면 됐고, 그 조건을 비용 없이 만족하는 게 결정론
+방식이었습니다.</p>
+<h2 id="해결-1">해결</h2>
+<p>닉네임 생성을 <code>(orgNo, recCd)</code>를 시드로 쓰는 멱등 함수로
+바꿨습니다. 입력이 같으면 결과가 항상 같으니, 인스턴스끼리 통신하지
+않아도 같은 닉네임이 나와서 "충돌"이라는 상황 자체가 생기지
+않습니다.</p>
+<pre class="java"><code>// (orgNo, recCd)를 시드로 고정 → 같은 키는 항상 같은 닉네임
+public String getStableNickName(String gender, long orgNo, String recCd) {
+    return composeNickName(gender, new Random(31L * orgNo + recCd.hashCode()));
+}</code></pre>
+<p><code>String.hashCode()</code>와 <code>Random(seed)</code>는 JVM
+스펙에 고정돼 있어서 어느 인스턴스, 어느 시점에 계산해도 같은 값이
+나옵니다. 여기에 앱 버튼 디바운스(0.8초)를 1차로 두고 서버 결정론 생성을
+근본 처리로 두는 식으로 계층을 나눴습니다.</p>
+<p>작업하다 닉네임 명사 배열이 형용사 배열 길이만큼만 채워져서 뒤쪽 명사
+73개(여 32, 남 24, 기타 17)가 아예 안 뽑히던 버그도 발견해서 고쳤습니다.
+렌즈·커뮤니티 공통 함수라 양쪽에 반영됐습니다. 렌즈에서 고친 뒤 커뮤니티
+댓글에도 같은 구조가 있는 걸 확인하고 공통 메서드로 묶어
+재사용했습니다.</p>
+<h2 id="검증-1">검증</h2>
+<p><code>getStableNickName</code>은 외부 의존이 없는 순수 함수라 mock
+없이 실제로 테스트했습니다. 성별별로 같은 키를 50번 호출해 결과가 하나로
+나오는지(멱등성 3종), recCd·orgNo를 각각 20종 넣어 결과가 충분히
+흩어지는지(키 반영 2종)를 확인했고, 별도 프로세스에서 같은 시드로 돌렸을
+때 난수 시퀀스가 똑같이 나오는 것도 봤습니다.</p>
+<h2 id="돌아보며-2">돌아보며</h2>
+<p>동시성 문제라고 꼭 락이 답은 아니라는 걸 배운 사례입니다. 지켜야 할
+규칙을 "생성 결과가 항상 같다"로 바꾸면 락 없이도 race가 의미가
+없어집니다. 닉네임이 익명 표시용이라 우연한 중복은 원래 괜찮다는
+요구사항의 성격을 정확히 본 게 비용 없는 해법으로 이어졌고, 한 곳을 고친
+뒤 다른 도메인에서 같은 결함을 찾아 함께 묶은 것도 재발 방지에 도움이
+됐습니다.</p>
+<p class="keywords"><span class="kw-label">STACK</span><span class="kw">분산 동시성</span><span class="kw">race condition</span><span class="kw">멱등성</span><span class="kw">결정론적 생성</span><span class="kw">의사난수 시드</span><span class="kw">계층 방어</span><span class="kw">순수 함수 단위 테스트</span></p>
+<hr/>
+</section>
+<section id="p04" class="proj"><h1 class="ptitle" data-num="04" id="4-같은-글-안에서-랜덤-닉네임이-겹치는-문제-개선">같은 글
+안에서 랜덤 닉네임이 겹치는 문제 개선</h1>
+<p class="tech"><strong>Java 21 · Spring Boot · MyBatis · MySQL(InnoDB, 약 9,600만
+행)</strong></p>
+<h2 id="요약-3">요약</h2>
+<p class="summary">같은 게시글에서 서로 다른 두 사람이 우연히 같은 랜덤 닉네임을 받아
+누가 누군지 헷갈리는 문제가 있었습니다(커뮤니티 기준 월 180건 정도).
+UI나 DDL, 인프라 없이 "이미 쓰인 닉네임을 빼고 결정론적으로 고르는"
+방식으로 바꿔 연 1건 미만 수준으로 줄였습니다(3번과 같은 PR #48에서 함께
+처리했습니다).</p>
+<h2 id="상황-3">상황</h2>
+<p>익명 라운지와 렌즈에서 닉네임은 형용사 + 명사(예:
+<code>귀여운다람쥐</code>)로 랜덤 발급됩니다. 한 스레드 안에서는
+작성자마다 하나로 고정되고 서로 다른 작성자는 다르게 보여야 대화가
+되는데, 실제로는 다른 두 사람이 같은 닉네임을 받는 일이 생겼습니다.
+3번의 "같은 사람이 여러 닉네임을 받는" 동시성 문제와는 별개로, 다른
+사람끼리 우연히 겹치는 경우입니다.</p>
+<h2 id="원인-2">원인</h2>
+<p>조합 풀이 유한한데(여 5,073, 남 4,756, 기타 2,478) 각자 독립적으로
+뽑고, 다른 사람이 이미 쓴 걸 확인하지 않았습니다. 참여자가 많아지면 생일
+문제로 충돌 확률이 빠르게 올라서, 여성 풀 기준 75명이면 42.1%까지
+갑니다. 유일성은 뽑는 시점에 "남들이 뭘 썼는지"를 알아야 보장되는데,
+배열을 늘리거나 시드를 바꾸는 무상태 방식으로는 이 확률 하한을 못 넘는
+걸 실측으로 확인했습니다.</p>
+<p>개선 전 운영 수치는 이랬습니다.</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: right;">절대 건수(월)</th>
+<th style="text-align: right;">원글당 충돌률</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>렌즈</td>
+<td style="text-align: right;">약 6건</td>
+<td style="text-align: right;">약 1.0%</td>
+</tr>
+<tr class="even">
+<td>커뮤니티(익명 라운지 02·900·901)</td>
+<td style="text-align: right;">약 180건</td>
+<td style="text-align: right;">약 0.28%</td>
+</tr>
+</tbody>
+</table>
+<p>비율은 낮아도 매달 180건 넘게 실제 불편이 생기고 있어서 고치기로
+했습니다.</p>
+<h2 id="대안-비교-1">대안 비교</h2>
+<table>
+<thead>
+<tr class="header">
+<th>방안</th>
+<th style="text-align: center;">유일성</th>
+<th style="text-align: center;">DDL/인프라</th>
+<th style="text-align: center;">형태</th>
+<th>메모</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>단어 배열 확대</td>
+<td style="text-align: center;">✕</td>
+<td style="text-align: center;">없음</td>
+<td style="text-align: center;">유지</td>
+<td>인기 글에선 여전히 겹침</td>
+</tr>
+<tr class="even">
+<td>숫자/이모지 접미사</td>
+<td style="text-align: center;">✕</td>
+<td style="text-align: center;">없음</td>
+<td style="text-align: center;">변경</td>
+<td>비용은 낮지만 닉네임 형태가 바뀜</td>
+</tr>
+<tr class="odd">
+<td>D. UNIQUE 매핑 테이블</td>
+<td style="text-align: center;">완전</td>
+<td style="text-align: center;">테이블 DDL</td>
+<td style="text-align: center;">유지</td>
+<td>과거 글까지 커버하려면 수천만 행 마이그레이션</td>
+</tr>
+<tr class="even">
+<td>H. 사용 중 제외 + 결정론 선택</td>
+<td style="text-align: center;">거의 완전</td>
+<td style="text-align: center;">없음</td>
+<td style="text-align: center;">유지</td>
+<td>채택</td>
+</tr>
+</tbody>
+</table>
+<p>마지막까지 H와 D를 놓고 고민했습니다. D를 안 쓴 이유는, 얻는 게 "연
+1건 미만을 0건으로" 정도인데 그 대가로 DDL, 수천만 행 마이그레이션,
+본문과 매핑 테이블 이중 관리를 떠안기 때문입니다. 게다가 마이그레이션을
+안 하면 과거 글에서는 D가 오히려 H보다 못합니다(H는 본문을 조회하니 과거
+닉네임도 바로 보입니다). 나중에 닉네임 이력이나 관리자 조회 때문에 매핑
+테이블이 정말 필요해지면 그때 H 위에 D를 얹으면 됩니다.</p>
+<h2 id="해결-방안-h">해결 (방안 H)</h2>
+<p>발급하기 전에 그 글에서 이미 쓰인 닉네임을 조회해 후보에서 빼고,
+고정된 전체 풀에서 <code>(orgNo, recCd)</code> 시드로 시작 위치를 정한
+다음 순환하며 처음 비어 있는 닉네임을 돌려줍니다.</p>
+<pre class="java"><code>public String getAvailableNickName(String gender, long orgNo, String recCd, Set&lt;String&gt; used) {
+    List&lt;String&gt; pool = NickNamePool.pool(gender);   // static 캐싱된 전체 조합 (고정)
+    int size = pool.size();
+    long seed = 31L * orgNo + recCd.hashCode();
+    int start = Math.floorMod(seed, size);           // 시작 위치는 used와 무관하게 고정
+    for (int i = 0; i &lt; size; i++) {
+        String candidate = pool.get((start + i) % size);
+        if (!used.contains(candidate)) return candidate;  // 처음 비어 있는 후보 반환
+    }
+    return getStableNickName(gender, orgNo, recCd);  // 풀이 다 찼을 때의 fallback
+}</code></pre>
+<p>처음엔 <code>used</code>를 뺀 리스트를 만들어
+<code>avail.get(seed % avail.size())</code>로 뽑았는데, 코드 리뷰에서
+문제가 잡혔습니다. 분모가 <code>avail.size()</code>라 상관없는 다른
+사람이 닉네임 하나만 더 써도 크기가 바뀌어, 같은 사람이 재요청 때 다른
+닉네임을 받을 수 있었습니다. 이러면 3번에서 고친 "같은 사람 여러 닉네임"
+문제가 다시 생깁니다. 그래서 전체 풀에서 시작점을 잡고 순환하는 방식으로
+바꿔 분모를 고정했고, 요청마다 리스트를 새로 만들던 것(약 20KB)도
+없앴습니다.</p>
+<h2 id="검증-2">검증</h2>
+<p>조회 비용부터 봤습니다. <code>ORG_NO</code> 인덱스가 이미 있어서
+커뮤니티는 9,600만 행에서도 <code>index_merge</code>로 rows=4 수준이고
+풀스캔이 없습니다. 조회는 그 사람이 그 글에 처음 댓글 쓸 때만 일어나서
+초당 0.2회 정도입니다.</p>
+<p>남는 동시성 리스크도 계산해 봤습니다. "조회~INSERT 사이(약 50ms)에
+신규 유저 둘이 같은 글에 동시 진입"하고 동시에 "남은 풀 약 5,000개에서
+하필 같은 걸 고르는(1/5,000)" 경우가 겹쳐야 하는데, 연 0.3건 미만으로
+나왔습니다. 월 180건 대비 99.9% 정도 줄어드는 셈입니다. 단위 테스트는
+제외·대체·무관한 닉 추가 시 유지·멱등성·풀 소진까지 10종을 뒀고, 배포
+후에는 원글 생성일 기준으로 전후 3개월 충돌률을 비교하는 쿼리를 준비해
+뒀습니다.</p>
+<h2 id="돌아보며-3">돌아보며</h2>
+<p>문제를 생일 문제로 놓고 확률을 계산한 덕에, "그냥 단어를 늘리자"는
+직관적인 안이 왜 근본 해결이 아닌지(병목이 조합 수가 아니라 남의 상태를
+안 보는 데 있다는 점)를 설명할 수 있었습니다. 그리고 이론상 완전한 D가
+항상 최선은 아니고, 마이그레이션·이중 관리까지 총비용으로 보면 H가
+나았습니다. 이 판단을 수치로 정리해 둔 게 리뷰에서 설득에 도움이 됐고,
+리뷰가 "조건부 결정론"이라는 미묘한 결함을 잡아 준 것도 좋았습니다.</p>
+<p class="keywords"><span class="kw-label">STACK</span><span class="kw">확률적 충돌</span><span class="kw">생일 문제</span><span class="kw">결정론적 순환
+탐색</span><span class="kw">상태 참조 vs 무상태</span><span class="kw">대안 비교</span><span class="kw">실행계획(index_merge)</span><span class="kw">코호트
+측정</span></p>
+<hr/>
+</section>
+<section id="p05" class="proj"><h1 class="ptitle" data-num="05" id="5-그룹웨어-게시판-통합-조회-슬로우쿼리-튜닝">그룹웨어 게시판
+통합 조회 슬로우쿼리 튜닝</h1>
+<p class="tech"><strong>그룹웨어 SaaS · MySQL · (2023)</strong> — <em>블로그 회고와
+이력서 기반 초안, 원문 대조 예정</em></p>
+<h2 id="요약-4">요약</h2>
+<p class="summary">여러 게시판 글을 한데 모아 보여주는 그룹웨어 "최근 게시글" 화면이
+특정 고객사에서 7초 가까이 걸렸는데, 쿼리 구조를 손봐서 3초 정도(약 57%
+단축)로 줄였습니다.</p>
+<h2 id="상황-4">상황</h2>
+<p>"최근 게시글"은 모든 게시판의 글을 합쳐 최신순으로 보여주는
+기능입니다. 초기 테스트 환경에서는 2~3초였는데, 데이터가 많은 한
+고객사에서 약 7초까지 걸렸습니다. <em>(정확한 수치와 환경은 블로그 원문
+대조 후 확정)</em></p>
+<h2 id="원인과-해결-이력서블로그-기반-원문-대조-필요">원인과 해결
+<em>(이력서·블로그 기반, 원문 대조 필요)</em></h2>
+<p>LEFT JOIN을 INNER JOIN으로 바꾼 게 가장 컸습니다. 실제로는 항상
+매칭되는(NULL이 나오지 않는) 관계인데 LEFT JOIN을 쓰고 있어서,
+옵티마이저의 조인 순서 선택과 인덱스 활용이 제약됐습니다. 결과 집합이
+같은 걸 확인한 뒤 INNER JOIN으로 바꿔 더 나은 실행계획을 타게 했습니다.
+이때 LEFT→INNER는 NULL 매칭 행의 의미가 달라질 수 있어서 결과 건수와
+내용이 같은지를 반드시 확인해야 하는데, 이 경우엔 동일했습니다.</p>
+<p>SELECT 목록에서 행마다 돌던 상관 서브쿼리도 조인으로 끌어올려 반복
+실행을 없앴고, 조회 조건과 정렬에 맞는 복합 인덱스로 교체해 정렬·필터가
+인덱스를 타게 했습니다. <em>(인덱스 컬럼 순서 근거는 원문·실제 스키마
+대조 후 확정)</em></p>
+<h2 id="검증-3">검증</h2>
+<p>개선 전후 응답시간을 비교하고, <code>EXPLAIN</code>에서
+<code>Using temporary</code>나 <code>Using filesort</code> 같은 병목이
+사라졌는지를 확인했습니다. <em>(구체 수치와 EXPLAIN은 원문 대조 후
+보강)</em></p>
+<h2 id="돌아보며-4">돌아보며</h2>
+<p>여러 테이블을 합치는 화면은 조인 방식(LEFT냐 INNER냐)과 서브쿼리
+위치가 성능을 크게 좌우합니다. 결과가 같은 선에서 옵티마이저가 유리하게
+읽을 수 있는 형태로 다시 써 주는 게 핵심이었습니다. 3초도 아직 줄일
+여지가 있어서(페이징·카운트 쿼리 분리, 캐시 등) 다음 후보로 남겨
+뒀습니다.</p>
+<blockquote class="accuracy">
+<p>정확성 메모: 위 원인과 수치는 2023년 블로그 회고와 이력서를 바탕으로
+다시 정리한 것입니다. 블로그 원문(<a href="https://jonghne.tistory.com/49)과">https://jonghne.tistory.com/49)과</a>
+대조하면 실제 SQL·EXPLAIN·인덱스 구성을 확정할 수 있습니다. 원문
+텍스트를 주시면 실제 쿼리 기준으로 다듬겠습니다.</p>
+</blockquote>
+<p class="keywords"><span class="kw-label">STACK</span><span class="kw">JOIN 최적화(LEFT vs INNER)</span><span class="kw">상관
+서브쿼리 제거</span><span class="kw">복합 인덱스</span><span class="kw">실행계획</span><span class="kw">temporary / filesort</span></p>
+<hr/>
+</section>
+<section id="p06" class="proj"><h1 class="ptitle" data-num="06" id="6-대용량-엑셀-마이그레이션-poi-전체-로딩--sax-스트리밍">대용량 엑셀 마이그레이션 (POI 전체 로딩 → SAX 스트리밍)</h1>
+<p class="tech"><strong>Java · Apache POI · (2023)</strong> — <em>블로그 회고와
+이력서 기반 초안, 원문 대조 예정</em></p>
+<h2 id="요약-5">요약</h2>
+<p class="summary">마이그레이션 자동화 애플리케이션에서 수십만 행짜리 엑셀을 읽어 DB에
+넣는 기능이 있었는데, Apache POI로 파일을 통째로 올리는 방식이라
+메모리와 속도에서 문제가 있었습니다. SAX 기반 스트리밍 파싱으로 다시
+구현해 해결했습니다.</p>
+<h2 id="상황-5">상황</h2>
+<p>신규 마이그레이션 프로젝트에서 대용량 엑셀을 읽어 DB에 저장하는
+기능을 맡았는데, 처음 쓴 <code>XSSFWorkbook</code>(전체 로딩) 방식이
+수만 건이 넘어가면 성능과 메모리에서 버거웠습니다.</p>
+<h2 id="원인-3">원인</h2>
+<p><code>XSSFWorkbook</code>은 워크북 전체를 객체 트리로 메모리에
+올립니다. 셀 하나하나가 자바 객체라서 행 수가 늘수록 힙이 급격히 커지고,
+수십만 행이면 힙을 압박해 GC가 심하게 돌거나 OOM으로 이어집니다. <em>(이
+사례가 OOM이었는지 GC 과부하였는지는 원문 대조 후 확정)</em></p>
+<h2 id="해결-2">해결</h2>
+<p>POI의 이벤트 기반 파서(<code>XSSFReader</code> + SAX
+<code>SheetContentsHandler</code>, 이른바 eventusermodel)로 다시
+짰습니다. 전체를 메모리에 올리지 않고 행을 순서대로 흘려보내며 처리해서,
+파일이 커져도 메모리 사용량이 일정하게 유지됩니다.</p>
+<blockquote class="accuracy">
+<p>정확성 메모: 대용량 엑셀은 읽기는 SAX(<code>XSSFReader</code> /
+eventusermodel), 쓰기는 <code>SXSSFWorkbook</code>(streaming)이
+정석입니다. 이 작업은 "읽어서 DB에 넣기"라 읽기 스트리밍이 맞습니다.
+블로그에 쓰기용 SXSSF로 적힌 부분이 있으면 읽기 관점으로 바로잡아
+서술했으니, 원문에서 실제 사용한 클래스를 확인해 확정하겠습니다.</p>
+</blockquote>
+<h2 id="db-적재-원문-대조-필요">DB 적재 <em>(원문 대조 필요)</em></h2>
+<p>수십만 행을 넣을 때는 단건 INSERT 대신 배치 INSERT로 처리하고(JDBC
+batch / MyBatis <code>ExecutorType.BATCH</code>), 대량 삽입에서는
+<code>rewriteBatchedStatements=true</code>와 청크 단위 커밋으로 왕복과
+트랜잭션 부담을 줄이는 게 핵심입니다. <em>(실제 배치 크기와 커밋 전략은
+원문 대조 후 확정)</em></p>
+<h2 id="검증-4">검증</h2>
+<p>개선 전후로 처리 시간과 힙 사용량(또는 OOM 여부)을 대용량 파일로
+비교했습니다. <em>(구체 수치는 원문 대조 후 보강)</em></p>
+<h2 id="돌아보며-5">돌아보며</h2>
+<p>스트리밍 파싱은 메모리를 일정하게 쓰는 대신 랜덤 접근이 안 되고
+수식·스타일 같은 정보 접근에 제약이 있습니다. "읽어서 넣기"라는 목적에는
+이 제약이 걸리지 않아서 잘 맞았습니다. 대용량 처리는 파싱만이 아니라
+넣는 단계(배치 INSERT, 커밋 전략)까지 같이 봐야 전체 시간이 줄고, 중간에
+실패했을 때 어디까지 넣었는지 다시 처리할 수 있게 하는 것도
+마이그레이션에선 빼놓을 수 없는 부분입니다.</p>
+<blockquote class="accuracy">
+<p>정확성 메모: 위 내용은 2023년 블로그 회고와 이력서를 바탕으로 다시
+정리한 것입니다. 원문(<a href="https://jonghne.tistory.com/45)을">https://jonghne.tistory.com/45)을</a>
+주시면 실제 사용한 클래스와 배치 전략, 수치를 반영해 다듬겠습니다.</p>
+</blockquote>
+<p class="keywords"><span class="kw-label">STACK</span><span class="kw">Apache POI</span><span class="kw">DOM vs SAX(eventusermodel)</span><span class="kw">스트리밍 파싱</span><span class="kw">힙 / OOM / GC</span><span class="kw">JDBC 배치 INSERT</span><span class="kw">rewriteBatchedStatements</span><span class="kw">재처리</span></p>
+<hr/>
+</section>
+<section id="appendix" class="proj"><h2 id="부록--추가-예정-항목">부록 — 추가 예정 항목</h2>
+<p>아래는 이력서에는 있지만 아직 상세 기록을 확보하지 못해 이 문서에
+깊게 넣지 않은 항목입니다. 자료가 준비되면 같은 형식으로 이어서
+정리하겠습니다.</p>
+<ul>
+<li>대시보드 조회 성능 개선(N+1·중복 집계 제거, 1.8초 → 320ms) — JPA
+fetch join / <code>@EntityGraph</code> / batch size 근거 정리 필요</li>
+<li>멀티테넌트 SaaS 데이터 분리 구조 설계(FitIn) — 격리 모델 선택 근거,
+noisy neighbor, 테넌트 경계 안전장치</li>
+<li>출석 트랜잭션 커밋 이후 FCM 푸시
+발행(<code>@TransactionalEventListener(AFTER_COMMIT)</code>) — 알림 유실
+시 재시도/아웃박스 설계</li>
+</ul>
+</section>
+  </main>
+</div>
+
+<footer><div class="foot-wrap">
+  <p class="foot-note">회사명·재직 기간은 이력서 기준으로 채워 넣어 주세요. 5·6번은 2023년 블로그 회고·이력서를 바탕으로 다시 정리한 초안이라, 원문 대조가 끝나면 수치·구현 세부를 확정합니다(해당 부분에 표시).</p>
+  <div class="foot-row"><span>이종현 · 백엔드 개발 포트폴리오</span><span>Java · Spring Boot · MySQL</span></div>
+</div></footer>
+
+<button class="top" id="toTop" aria-label="맨 위로">↑</button>
+
+<script>
+(function(){
+  var html=document.documentElement;
+  document.getElementById('themeToggle').addEventListener('click',function(){
+    html.dataset.theme = html.dataset.theme==='dark' ? 'light':'dark';
+  });
+  document.querySelectorAll('main table').forEach(function(t){
+    if(t.parentElement.classList.contains('tblwrap'))return;
+    var w=document.createElement('div');w.className='tblwrap';
+    t.parentNode.insertBefore(w,t);w.appendChild(t);
+  });
+  document.querySelectorAll('main pre').forEach(function(pre){
+    var wrap=document.createElement('div');wrap.className='codeblock';
+    pre.parentNode.insertBefore(wrap,pre);wrap.appendChild(pre);
+    var b=document.createElement('button');b.className='copybtn';b.textContent='복사';
+    b.addEventListener('click',function(){
+      navigator.clipboard.writeText(pre.innerText).then(function(){
+        b.textContent='복사됨';setTimeout(function(){b.textContent='복사';},1400);});
+    });
+    wrap.appendChild(b);
+  });
+  var links=[].slice.call(document.querySelectorAll('nav.toc a'));
+  var map={};links.forEach(function(a){map[a.dataset.target]=a;});
+  var obs=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        links.forEach(function(a){a.classList.remove('active');});
+        var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest',inline:'nearest'});}
+      }
+    });
+  },{rootMargin:'-12% 0px -72% 0px',threshold:0});
+  document.querySelectorAll('section.proj').forEach(function(s){obs.observe(s);});
+  var top=document.getElementById('toTop'),prog=document.getElementById('prog');
+  top.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+  function onScroll(){
+    var st=window.scrollY, h=document.documentElement.scrollHeight-window.innerHeight;
+    prog.style.width=(h>0?(st/h*100):0)+'%';
+    if(st>500)top.classList.add('show');else top.classList.remove('show');
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+})();
+</script>
+</body>
+</html>
